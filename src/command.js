@@ -16,6 +16,10 @@ const cd = async (dir, message) => {
     .catch((e) => console.error(e.message))
 }
 
+const up = (dir) => {
+  return path.parse(dir).dir
+}
 
 
-export { ls, cd }
+
+export { ls, cd, up }
