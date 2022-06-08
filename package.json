@@ -1,0 +1,20 @@
+{
+  "name": "file-manager",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "test": "node index.js -- --username=your_username",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yurichprololz/File-Manager.git"
+  },
+  "author": "Yuri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yurichprololz/File-Manager/issues"
+  },
+  "homepage": "https://github.com/Yurichprololz/File-Manager#readme"
+}
