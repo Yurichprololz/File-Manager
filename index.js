@@ -6,31 +6,27 @@ import { getCommand, getHomeDir } from './src/helper.js'
 import readline from 'readline';
 import { stdin as input, stdout as output } from 'process';
 import { farewell, greeting } from './src/greeting-farewell.js';
+import { ls } from './src/command.js';
 
-try {
-  let dir = getHomeDir()
-  let username = getUsername()
-} catch (e) {
-  throw e
-}
-
-
+let username = getUsername()
 console.log(greeting(username))
 
+let dir = getHomeDir()
+console.log(dir)
+
+
 const rl = readline.createInterface({ input, output });
-rl.on('line', (message) => {
+rl.on('line', async (message) => {
   console.log(dir)
   const command = getCommand(message)
   switch (command) {
-    case ls:
-
+    case 'ls':
+      await ls(dir)
       break;
 
     default:
       break;
   }
-  rl.prompt()
-
 })
 rl.on('SIGINT', () => rl.close())
 rl.on('close', () => console.log(farewell(username)))

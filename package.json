@@ -4,7 +4,7 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "test": "node index.js -- --username=your_username",
+    "test": "node index.js -- --username=Yuri",
     "start": "node index.js"
   },
   "repository": {
