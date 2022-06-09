@@ -5,6 +5,7 @@ import { stdin as input, stdout as output } from 'process';
 import { farewell, greeting } from './src/greeting-farewell.js';
 import { ls, cd, up } from './src/command.js';
 import { OSInfo } from './src/os-command.js';
+import { showHash } from './src/hash-command.js';
 
 const rl = readline.createInterface({ input, output });
 let username = getUsername()
@@ -17,10 +18,10 @@ console.log(`You are currently in ${dir}`)
 rl.on('line', async (message) => {
   const command = getCommand(message)
   await commandWorker(command, message)
-    .then((lastComannd) => {
+    .catch((e) => console.log(e.message))
+    .finally((lastComannd) => {
       if (!lastComannd) console.log(`You are currently in ${dir}`)
     })
-    .catch((e) => console.log(e.message))
 })
 
 rl.on('SIGINT', () => rl.close())
@@ -34,7 +35,10 @@ async function commandWorker(command, message) {
       await ls(dir)
       break;
     case 'cd':
-      dir = await cd(dir, message)
+      await cd(dir, message)
+        .then((path) => {
+          dir = path
+        })
       break;
     case 'up':
       dir = up(dir)
@@ -42,6 +46,10 @@ async function commandWorker(command, message) {
 
     case 'os':
       OSInfo(message)
+      break;
+
+    case 'hash':
+      await showHash(dir, message)
       break;
 
     case '.exit':

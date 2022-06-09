@@ -13,7 +13,6 @@ const cd = async (dir, message) => {
 
   return await isDirectory(currentFolderPath)
     .then(() => currentFolderPath)
-    .catch((e) => console.error(e.message))
 }
 
 const up = (dir) => {
