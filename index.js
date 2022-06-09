@@ -16,14 +16,19 @@ console.log(`You are currently in ${dir}`)
 
 rl.on('line', async (message) => {
   const command = getCommand(message)
-  commandWorker(command, message)
-    .then(() => console.log(`You are currently in ${dir}`))
+  await commandWorker(command, message)
+    .then((lastComannd) => {
+      if (!lastComannd) console.log(`You are currently in ${dir}`)
+    })
+    .catch((e) => console.log(e.message))
 })
 
 rl.on('SIGINT', () => rl.close())
 rl.on('close', () => console.log(farewell(username)))
 
 async function commandWorker(command, message) {
+  let isExit = false
+
   switch (command) {
     case 'ls':
       await ls(dir)
@@ -39,8 +44,15 @@ async function commandWorker(command, message) {
       OSInfo(message)
       break;
 
+    case '.exit':
+      isExit = true
+      rl.close()
+      break;
+
     default:
       break;
   }
+
+  return isExit
 }
 
