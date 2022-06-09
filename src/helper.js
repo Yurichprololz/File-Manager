@@ -9,7 +9,7 @@ const getCommand = (msg) => {
     return msg.split(' ')[0]
 }
 
-const getFileToOperation = (msg) => {
+const getFirstArg = (msg) => {
     return msg.split(' ')[1]
 }
 
@@ -31,4 +31,4 @@ const isFile = async (path) => {
     return !(await isDirectory(path))
 }
 
-export { getHomeDir, getCommand, getFileToOperation, isDirectory, isFile }
+export { getHomeDir, getCommand, getFirstArg, isDirectory, isFile }

@@ -1,5 +1,5 @@
 import fs, { readdir } from 'fs/promises'
-import { getFileToOperation, isDirectory } from './helper.js'
+import { getFirstArg as getFileToOperation, isDirectory } from './helper.js'
 import path from 'path'
 
 const ls = async (dir) => {

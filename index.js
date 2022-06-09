@@ -4,6 +4,7 @@ import readline from 'readline';
 import { stdin as input, stdout as output } from 'process';
 import { farewell, greeting } from './src/greeting-farewell.js';
 import { ls, cd, up } from './src/command.js';
+import { OSInfo } from './src/os-command.js';
 
 const rl = readline.createInterface({ input, output });
 let username = getUsername()
@@ -32,6 +33,10 @@ async function commandWorker(command, message) {
       break;
     case 'up':
       dir = up(dir)
+      break;
+
+    case 'os':
+      OSInfo(message)
       break;
 
     default:
