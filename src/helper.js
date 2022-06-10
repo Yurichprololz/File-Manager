@@ -1,4 +1,5 @@
 import fs from 'fs/promises'
+import path from 'path';
 
 
 const getHomeDir = () => {
@@ -12,6 +13,29 @@ const getCommand = (msg) => {
 const getFirstArg = (msg) => {
   return msg.split(' ')[1]
 }
+
+const getPathToZip = async (dir, message) => {
+  const { first, second } = getTwoArg(message)
+  const pathToFile = path.join(dir, first)
+  const pathToDestination = path.join(dir, second)
+
+  return await isFile(pathToFile)
+    .then(() => {
+      return {
+        pathToFile,
+        pathToDestination
+      }
+    })
+}
+
+const getTwoArg = (msg) => {
+  return {
+    first: msg.split(' ')[1],
+    second: msg.split(' ')[2],
+  }
+}
+
+
 
 const isDirectory = async (path) => {
   return await fs.access(path)
@@ -43,4 +67,4 @@ const isFile = async (path) => {
 
 }
 
-export { getHomeDir, getCommand, getFirstArg, isDirectory, isFile }
+export { getHomeDir, getCommand, getFirstArg, isDirectory, isFile, getTwoArg, getPathToZip }

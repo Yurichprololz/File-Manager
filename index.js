@@ -6,6 +6,7 @@ import { farewell, greeting } from './src/greeting-farewell.js';
 import { ls, cd, up } from './src/command.js';
 import { OSInfo } from './src/os-command.js';
 import { showHash } from './src/hash-command.js';
+import { compress, decompress } from './src/zlib-commands.js';
 
 const rl = readline.createInterface({ input, output });
 let username = getUsername()
@@ -48,6 +49,12 @@ async function commandWorker(command, message) {
       OSInfo(message)
       break;
 
+    case 'compress':
+      await compress(dir, message)
+      break;
+    case 'decompress':
+      await decompress(dir, message)
+      break;
     case 'hash':
       await showHash(dir, message)
       break;
