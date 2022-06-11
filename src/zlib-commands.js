@@ -14,7 +14,6 @@ const compress = async (dir, message) => {
     const source = fs.createReadStream(pathToFile);
     const destination = fs.createWriteStream(TotalPathToDestination);
     await pipe(source, stream, destination)
-        .then(() => console.log('Compressing  have succeeded'))
 }
 
 const decompress = async (dir, message) => {
@@ -25,8 +24,6 @@ const decompress = async (dir, message) => {
     const source = fs.createReadStream(pathToFile);
     const destination = fs.createWriteStream(pathToDestination);
     await pipe(source, stream, destination)
-        .then(() => console.log('Decompressing  have succeeded'))
-
 }
 
 export { compress, decompress }

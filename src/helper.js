@@ -1,7 +1,6 @@
 import fs from 'fs/promises'
 import path from 'path';
 
-
 const getHomeDir = () => {
   return process.env.HOME || process.env.USERPROFILE;
 }
@@ -35,8 +34,6 @@ const getTwoArg = (msg) => {
   }
 }
 
-
-
 const isDirectory = async (path) => {
   return await fs.access(path)
     .catch(() => {
@@ -67,4 +64,8 @@ const isFile = async (path) => {
 
 }
 
-export { getHomeDir, getCommand, getFirstArg, isDirectory, isFile, getTwoArg, getPathToZip }
+const showDir = (dir) => {
+  console.log(`You are currently in inner ${dir}`)
+}
+
+export { getHomeDir, getCommand, getFirstArg, isDirectory, isFile, getTwoArg, getPathToZip, showDir }

@@ -1,5 +1,5 @@
 import { getUsername } from './src/getUsername.js';
-import { getCommand, getHomeDir } from './src/helper.js'
+import { getCommand, getHomeDir, showDir } from './src/helper.js'
 import readline from 'readline';
 import { stdin as input, stdout as output } from 'process';
 import { farewell, greeting } from './src/greeting-farewell.js';
@@ -14,15 +14,20 @@ let username = getUsername()
 console.log(greeting(username))
 
 let dir = getHomeDir()
-console.log(`You are currently in ${dir}`)
+showDir(dir)
 
 
 rl.on('line', async (message) => {
   const command = getCommand(message)
   await commandWorker(command, message)
-    .catch((e) => console.log('Error: ', e.message))
-    .finally((lastComannd) => {
-      if (!lastComannd) console.log(`You are currently in ${dir}`)
+    .then((lastComannd) => {
+      if (!lastComannd) {
+        showDir(dir)
+      }
+    })
+    .catch((e) => {
+      console.log('Error: ', e.message)
+      showDir(dir)
     })
 })
 
@@ -36,32 +41,40 @@ async function commandWorker(command, message) {
     case 'ls':
       await ls(dir)
       break;
+
     case 'cd':
       await cd(dir, message)
         .then((path) => dir = path)
       break;
+
     case 'up':
       dir = up(dir)
       break;
+
     case 'cat':
       await readFile(dir, message)
       break;
+
     case 'add':
       await createFile(dir, message)
         .then(() => console.log('The file created'))
       break;
+
     case 'rn':
       await renameFile(dir, message)
         .then(() => console.log('The file have renamed successfully'))
       break;
+
     case 'cp':
       await copyFile(dir, message)
         .then(() => console.log('The file have been copied'))
       break;
+
     case 'mv':
       await moveFile(dir, message)
         .then(() => console.log('The file has moved'))
       break;
+
     case 'rm':
       await deleteFile(dir, message)
         .then(() => console.log('The file has deleted successfully'))
@@ -73,10 +86,14 @@ async function commandWorker(command, message) {
 
     case 'compress':
       await compress(dir, message)
+        .then(() => console.log('Compressing has succeeded'))
       break;
+
     case 'decompress':
       await decompress(dir, message)
+        .then(() => console.log('Decompressing has succeeded'))
       break;
+
     case 'hash':
       await showHash(dir, message)
       break;
@@ -84,12 +101,10 @@ async function commandWorker(command, message) {
     case '.exit':
       isExit = true
       rl.close()
-      break;
+      return isExit
 
     default:
-      break;
+      throw new Error('Invalid input')
   }
-
-  return isExit
 }
 
