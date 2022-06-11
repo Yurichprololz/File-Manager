@@ -9,7 +9,7 @@ const ls = async (dir) => {
 
 const cd = async (dir, message) => {
   const currentFolder = getFileToOperation(message)
-  const currentFolderPath = path.join(dir, currentFolder)
+  const currentFolderPath = path.isAbsolute(currentFolder) ? currentFolder : path.join(dir, currentFolder)
 
   return await isDirectory(currentFolderPath)
     .then(() => currentFolderPath)
