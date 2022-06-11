@@ -7,6 +7,7 @@ import { ls, cd, up } from './src/command.js';
 import { OSInfo } from './src/os-command.js';
 import { showHash } from './src/hash-command.js';
 import { compress, decompress } from './src/zlib-commands.js';
+import { readFile, createFile, deleteFile, renameFile, copyFile, moveFile } from './src/file-commands.js';
 
 const rl = readline.createInterface({ input, output });
 let username = getUsername()
@@ -19,7 +20,7 @@ console.log(`You are currently in ${dir}`)
 rl.on('line', async (message) => {
   const command = getCommand(message)
   await commandWorker(command, message)
-    .catch((e) => console.log(e.message))
+    .catch((e) => console.log('Error: ', e.message))
     .finally((lastComannd) => {
       if (!lastComannd) console.log(`You are currently in ${dir}`)
     })
@@ -37,12 +38,33 @@ async function commandWorker(command, message) {
       break;
     case 'cd':
       await cd(dir, message)
-        .then((path) => {
-          dir = path
-        })
+        .then((path) => dir = path)
       break;
     case 'up':
       dir = up(dir)
+      break;
+    case 'cat':
+      await readFile(dir, message)
+      break;
+    case 'add':
+      await createFile(dir, message)
+        .then(() => console.log('The file created'))
+      break;
+    case 'rn':
+      await renameFile(dir, message)
+        .then(() => console.log('The file have renamed successfully'))
+      break;
+    case 'cp':
+      await copyFile(dir, message)
+        .then(() => console.log('The file have been copied'))
+      break;
+    case 'mv':
+      await moveFile(dir, message)
+        .then(() => console.log('The file has moved'))
+      break;
+    case 'rm':
+      await deleteFile(dir, message)
+        .then(() => console.log('The file has deleted successfully'))
       break;
 
     case 'os':
