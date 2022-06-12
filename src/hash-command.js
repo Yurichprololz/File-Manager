@@ -15,13 +15,18 @@ const calculateHash = (pathToFile) => {
   return new Promise((res) => {
     const readStream = createReadStream(pathToFile)
     const hash = createHash('sha256')
+    let data = ''
 
     hash.on('readable', () => {
-      const data = hash.read()
-      if (data) {
-        res(data.toString('hex'))
+      const chunk = hash.read()
+      if (chunk) {
+        data += chunk.toString('hex')
       }
     });
+
+    hash.on('end', () => {
+      res(data)
+    })
 
     readStream.on('data', (data) => {
       hash.write(data);
